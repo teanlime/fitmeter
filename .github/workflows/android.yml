@@ -26,18 +26,16 @@ jobs:
         run: ls /home/runner
       - name: Check 2
         run: ls /home/runner/work
-      - name: Check 3
-        run: ls /home/runner/work/teanlime
       - name: Check 4
-        run: ls /home/runner/work/teanlime/fitmeter
+        run: ls /home/runner/work/fitmeter
       - name: Check 5
-        run: ls /home/runner/work/teanlime/fitmeter/tree
+        run: ls /home/runner/work/fitmeter/tree
       - name: Check 6
-        run: ls /home/runner/work/teanlime/fitmeter/tree/main
+        run: ls /home/runner/work/fitmeter/tree/main
       - name: Check 7
-        run: ls /home/runner/work/teanlime/fitmeter/tree/main/app
+        run: ls /home/runner/work/fitmeter/tree/main/app
       - name: Create empty google-services.json
-        run: cat /home/runner/work/teanlime/fitmeter/tree/main/app/google-services.json | base64
+        run: cat /home/runner/work/fitmeter/tree/main/app/google-services.json | base64
       - name: Putting data
         env:
           DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
