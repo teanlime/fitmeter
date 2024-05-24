@@ -42,16 +42,14 @@ jobs:
           DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: echo $DATA > /home/runner/work/fitmeter/fitmeter/app/google-services.json
 
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Assemble Debug APK
+        run: ./gradlew assembleDebug
 
-#      # Step 3: Check the code with ktlint, you can remove this job if you don't use ktlint
-#      - name: Run Kotlin Linter
-#        run: ./gradlew ktlintDebugCheck
-#
-#      # Step 3: Check the code with Android linter
-#      - name: Run Android Linter
-#        run: ./gradlew lintDebug
+      - name: Run Kotlin Linter
+        run: ./gradlew ktlintDebugSourceSetCheck
+
+      - name: Run Android Linter
+        run: ./gradlew lintDebug
 
       - name: Run unit tests
         run: ./gradlew testDebugUnitTest
@@ -72,12 +70,12 @@ jobs:
             **/build/test-results/test*/**/*.xml
           reporter: java-junit        # Format of test results
 
-      - name: Enable KVM
-        run: |
-          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-          sudo udevadm control --reload-rules
-          sudo udevadm trigger --name-match=kvm
-
+#      - name: Enable KVM
+#        run: |
+#          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+#          sudo udevadm control --reload-rules
+#          sudo udevadm trigger --name-match=kvm
+#
 #      - name: Gradle cache
 #        uses: gradle/actions/setup-gradle@v3
 #
@@ -100,35 +98,38 @@ jobs:
 #          disable-animations: false
 #          script: echo "Generated AVD snapshot for caching."
 
-      - name: Run Android Instrumentation tests
-        uses: ReactiveCircus/android-emulator-runner@v2
-        with:
-          api-level: ${{ matrix.api-level }}
-          target: ${{ matrix.target }}
-          arch: x86_64
-          script: ./gradlew connectedCheck
-
-      - name: Upload Android Test Report directory
-        uses: actions/upload-artifact@v4
-        with:
-          name: androidTest-results
-          path: |
-            **/build/outputs/androidTest-results/
-          retention-days: 1
-
-      - name: Publish Android Test Report
-        uses: dorny/test-reporter@v1
-        if: success() || failure()    # run this step even if previous step failed
-        with:
-          name: Android Test Report     # Name of the check run which will be created
-          path: |
-            **/build/outputs/androidTest-results/connected/**/*.xml
-          reporter: java-junit        # Format of test results
-
-#      # Step 4: Run instrumented tests on firebase test lab
-#      - name: Run tests on Firebase Test Lab
-#        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+#      - name: Run Android Instrumentation tests
+#        uses: ReactiveCircus/android-emulator-runner@v2
 #        with:
-#          arg-spec: '.github/test-lab-config-staging.yml:android-pixel-4'
-#        env:
-#          SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
+#          api-level: ${{ matrix.api-level }}
+#          target: ${{ matrix.target }}
+#          arch: x86_64
+#          script: ./gradlew connectedCheck
+#
+#      - name: Upload Android Test Report directory
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: androidTest-results
+#          path: |
+#            **/build/outputs/androidTest-results/
+#          retention-days: 1
+#
+#      - name: Publish Android Test Report
+#        uses: dorny/test-reporter@v1
+#        if: success() || failure()    # run this step even if previous step failed
+#        with:
+#          name: Android Test Report     # Name of the check run which will be created
+#          path: |
+#            **/build/outputs/androidTest-results/connected/**/*.xml
+#          reporter: java-junit        # Format of test results
+
+      - name: Build Android Instrumentation TestAPK
+        run: ./gradlew assembleAndroidTest
+
+      - name: Run tests on Firebase Test Lab
+        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        with:
+          arg-spec: '.github/android/androidTestConfig.yml:pixel6-api-33'
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
