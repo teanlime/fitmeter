@@ -3,6 +3,7 @@ plugins {
   alias(libs.plugins.jetbrains.kotlin.android)
   // Add the Google services Gradle plugin
   alias(libs.plugins.google.services)
+  alias(libs.plugins.ktlint)
 }
 
 android {
