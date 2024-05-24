@@ -56,7 +56,7 @@ jobs:
       - name: Run unit tests
         run: ./gradlew testDebugUnitTest
 
-      - name: Upload test report directory
+      - name: Upload Unit Test Report Directory
         uses: actions/upload-artifact@v4
         with:
           name: testDebugUnitTest
@@ -108,13 +108,21 @@ jobs:
           arch: x86_64
           script: ./gradlew connectedCheck
 
+      - name: Upload Android Test Report directory
+        uses: actions/upload-artifact@v4
+        with:
+          name: androidTest-results
+          path: |
+            **/build/outputs/androidTest-results/
+          retention-days: 1
+
       - name: Publish Android Test Report
         uses: dorny/test-reporter@v1
         if: success() || failure()    # run this step even if previous step failed
         with:
           name: Android Test Report     # Name of the check run which will be created
           path: |
-            **/app/build/outputs/androidTest-results/connected/**/*.xml
+            **/build/outputs/androidTest-results/connected/**/*.xml
           reporter: java-junit        # Format of test results
 
 #      # Step 4: Run instrumented tests on firebase test lab
