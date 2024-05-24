@@ -58,6 +58,17 @@ jobs:
           path: app/build/reports/tests/testDebugUnitTest/
           retention-days: 1
 
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v4
+        if: success() || failure()
+        with:
+          detailed_summary: true
+          annotate_notice: true
+          include_passed: true
+          follow_symlink: true
+          report_paths: |
+            **/build/test-results/test*/**/*.xml
+
 #      # Step 4: Run instrumented tests on firebase test lab
 #      - name: Run tests on Firebase Test Lab
 #        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
