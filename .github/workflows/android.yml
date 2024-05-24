@@ -15,6 +15,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 100
 
+    strategy:
+      matrix:
+        api-level: [ 33 ]
+        target: [ google_apis ]
+
     steps:
       - name: Clone Repo
         uses: actions/checkout@v4
@@ -58,13 +63,58 @@ jobs:
           path: app/build/reports/tests/testDebugUnitTest/
           retention-days: 1
 
-      - name: Publish Test Report
+      - name: Publish Unit Test Report
         uses: dorny/test-reporter@v1
         if: success() || failure()    # run this step even if previous step failed
         with:
           name: JUnit Test Report     # Name of the check run which will be created
           path: |
             **/build/test-results/test*/**/*.xml
+          reporter: java-junit        # Format of test results
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+#      - name: Gradle cache
+#        uses: gradle/actions/setup-gradle@v3
+#
+#      - name: AVD cache
+#        uses: actions/cache@v4
+#        id: avd-cache
+#        with:
+#          path: |
+#            ~/.android/avd/*
+#            ~/.android/adb*
+#          key: avd-${{ matrix.api-level }}
+#
+#      - name: create AVD and generate snapshot for caching
+#        if: steps.avd-cache.outputs.cache-hit != 'true'
+#        uses: reactivecircus/android-emulator-runner@v2
+#        with:
+#          api-level: ${{ matrix.api-level }}
+#          force-avd-creation: false
+#          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+#          disable-animations: false
+#          script: echo "Generated AVD snapshot for caching."
+
+      - name: Run Android Instrumentation tests
+        uses: ReactiveCircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          target: ${{ matrix.target }}
+          arch: x86_64
+          script: ./gradlew connectedCheck
+
+      - name: Publish Android Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()    # run this step even if previous step failed
+        with:
+          name: Android Test Report     # Name of the check run which will be created
+          path: |
+            **/app/build/outputs/androidTest-results/connected/**/*.xml
           reporter: java-junit        # Format of test results
 
 #      # Step 4: Run instrumented tests on firebase test lab
