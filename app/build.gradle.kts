@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-  namespace = "com.teanlime.fitmeter"
+  namespace = "com.teanlime.wellscore"
   compileSdk = 34
 
   defaultConfig {
-    applicationId = "com.teanlime.fitmeter"
+    applicationId = "com.teanlime.wellscore"
     minSdk = 28
     targetSdk = 34
     versionCode = 1

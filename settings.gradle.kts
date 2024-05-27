@@ -22,5 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "FitMeter"
+rootProject.name = "WellScore"
 include(":app")

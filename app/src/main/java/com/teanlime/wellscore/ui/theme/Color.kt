@@ -1,4 +1,4 @@
-package com.teanlime.fitmeter.ui.theme
+package com.teanlime.wellscore.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

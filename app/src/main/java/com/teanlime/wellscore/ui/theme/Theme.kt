@@ -1,4 +1,4 @@
-package com.teanlime.fitmeter.ui.theme
+package com.teanlime.wellscore.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -33,7 +33,7 @@ onSurface = Color(0xFF1C1B1F),
 )
 
 @Composable
-fun FitMeterTheme(
+fun WellScoreTheme(
   darkTheme: Boolean = isSystemInDarkTheme(),
   // Dynamic color is available on Android 12+
   dynamicColor: Boolean = true,
