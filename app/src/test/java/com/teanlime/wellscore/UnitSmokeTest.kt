@@ -1,6 +1,6 @@
-package com.teanlime.fitmeter
+package com.teanlime.wellscore
 
-import com.teanlime.fitmeter.ui.theme.Purple80
+import com.teanlime.wellscore.ui.theme.Purple80
 import org.junit.Assert.assertNotNull
 import org.junit.Test
 
