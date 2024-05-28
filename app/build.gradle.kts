@@ -52,8 +52,6 @@ android {
 dependencies {
   // COMPOSE
   implementation(platform(libs.compose.bom))
-  implementation(libs.compose.activity)
-  implementation(libs.compose.lifecycle.viewmodel)
   implementation(libs.compose.material3)
   implementation(libs.compose.ui)
   implementation(libs.compose.ui.graphics)
@@ -62,7 +60,9 @@ dependencies {
   debugImplementation(libs.compose.ui.tooling)
 
   // OTHER ANDROID
+  implementation(libs.androidx.activity)
   implementation(libs.androidx.core.ktx)
+  implementation(libs.androidx.lifecycle.viewmodel)
   implementation(libs.androidx.lifecycle.runtime.ktx)
 
   // OTHER
