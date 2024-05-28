@@ -6,10 +6,9 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.teanlime.wellscore.track.ui.TrackComposable.WEIGHT_TEXT_FIELD_TAG
+import com.teanlime.wellscore.track.ui.TrackComposable.WEIGHT_INPUT
 import com.teanlime.wellscore.ui.theme.Purple80
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -26,25 +25,32 @@ import org.junit.runner.RunWith
 class AndroidSmokeTest {
 
     @get:Rule
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+    val rule = createAndroidComposeRule<MainActivity>()
+
+    val weightInput by lazy { rule.onNodeWithTag(WEIGHT_INPUT) }
+    val incrementButton by lazy { rule.onNodeWithText("+") }
+    val decrementButton by lazy { rule.onNodeWithText("-") }
 
     @Test
     fun verifyAndroidTestsRun() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.teanlime.wellscore", appContext.packageName)
-        // Find the home screen view
-        composeTestRule.onNodeWithText("Weight").assertIsDisplayed()
 
-        val weightInput = composeTestRule.onNodeWithTag(WEIGHT_TEXT_FIELD_TAG).assertIsDisplayed()
-        with(weightInput) {
-            assertTextEquals("")
-            performTextInput("100")
-            assertTextEquals("100")
-        }
+        weightInput.assertIsDisplayed()
+        incrementButton.assertIsDisplayed()
+        decrementButton.assertIsDisplayed()
 
-        composeTestRule.onNodeWithText("Submit").assertIsDisplayed().performClick()
-        weightInput.assertTextEquals("")
+        incrementButton.performClick()
+        weightInput.assertTextEquals("70.1")
+
+        decrementButton.performClick()
+        decrementButton.performClick()
+        decrementButton.performClick()
+        incrementButton.performClick()
+        decrementButton.performClick()
+        decrementButton.performClick()
+        weightInput.assertTextEquals("69.7")
 
         assertNotNull(Purple80)
     }
