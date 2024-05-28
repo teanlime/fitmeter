@@ -50,25 +50,31 @@ android {
 }
 
 dependencies {
-  implementation(libs.androidx.activity.compose)
+  // COMPOSE
+  implementation(platform(libs.compose.bom))
+  implementation(libs.compose.activity)
+  implementation(libs.compose.lifecycle.viewmodel)
+  implementation(libs.compose.material3)
+  implementation(libs.compose.ui)
+  implementation(libs.compose.ui.graphics)
+  implementation(libs.compose.ui.tooling.preview)
+  debugImplementation(libs.compose.ui.test.manifest)
+  debugImplementation(libs.compose.ui.tooling)
+
+  // OTHER ANDROID
   implementation(libs.androidx.core.ktx)
   implementation(libs.androidx.lifecycle.runtime.ktx)
-  implementation(libs.androidx.lifecycle.viewmodel.compose)
-  implementation(libs.androidx.material3)
-  implementation(libs.androidx.ui)
-  implementation(libs.androidx.ui.graphics)
-  implementation(libs.androidx.ui.tooling.preview)
-  implementation(platform(libs.androidx.compose.bom))
+
+  // OTHER
   implementation(platform(libs.firebase.bom))
 
+  // TEST
   testImplementation(libs.junit)
 
-  androidTestImplementation(libs.androidx.ui.test.junit4.android)
+  // ANDROID TEST
+  androidTestImplementation(platform(libs.compose.bom))
   androidTestImplementation(libs.androidx.espresso.core)
   androidTestImplementation(libs.androidx.junit)
-  androidTestImplementation(libs.androidx.ui.test.junit4)
-  androidTestImplementation(platform(libs.androidx.compose.bom))
-
-  debugImplementation(libs.androidx.ui.test.manifest)
-  debugImplementation(libs.androidx.ui.tooling)
+  androidTestImplementation(libs.compose.ui.test.junit4)
+  androidTestImplementation(libs.compose.ui.test.junit4.android)
 }
