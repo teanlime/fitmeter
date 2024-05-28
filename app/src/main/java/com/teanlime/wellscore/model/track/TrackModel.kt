@@ -41,7 +41,7 @@ sealed class MetricNormalizer {
 
 sealed class MetricSystemDefinitions(
   val id: MetricType, // “Metric”
-  val displayName: String, // “Metric”
+  val displayName: String,
   val definitions: Map<MetricType, Metric>
 )
 {
