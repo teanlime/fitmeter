@@ -21,12 +21,12 @@ data class Tracked (
 }
 
 data class Metric (
-  val id: MetricType, // “Weight”
-  val displayNameSuffix: String, //”kg”
-  val displayNamePrefix: String, // “”
-  val increments: Double, // “0.1”
+  val id: MetricType,
+  val displayNameSuffix: String,
+  val displayNamePrefix: String,
+  val increments: Double,
   val normalizer: MetricNormalizer,  //MetricNormalizer.None<Double>
-  val decimals: Int, // “1”
+  val decimals: Int,
 )
 
 sealed class MetricNormalizer {
