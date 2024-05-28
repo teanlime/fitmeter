@@ -2,6 +2,7 @@ package com.teanlime.wellscore.track.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -13,22 +14,27 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
-import com.teanlime.wellscore.model.track.MetricSystemDefinitions.MetricSystemDefinition
-import com.teanlime.wellscore.model.track.StandardMetricTypes.WEIGHT
-import com.teanlime.wellscore.model.track.Tracked
-import com.teanlime.wellscore.model.track.TrackedRepository
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.teanlime.wellscore.track.model.MetricEntry
+import com.teanlime.wellscore.track.model.MetricSystemDefinitions.MetricSystemDefinition
+import com.teanlime.wellscore.track.model.StandardMetricTypes.WEIGHT
 import com.teanlime.wellscore.track.ui.TrackComposable.WEIGHT_INPUT
 import java.math.BigDecimal
 
 @Composable
 fun TrackComposable(modifier: Modifier = Modifier) {
-  val weightMetric = remember { mutableStateOf(
-      Tracked(
+  val viewModel: TrackViewModel = viewModel()
+
+  val weightMetric = remember {
+    mutableStateOf(
+      MetricEntry(
+        id = "1",
+        timestamp = 0L,
         metric = MetricSystemDefinition.definitions[WEIGHT]!!,
-        lowerBound = BigDecimal.valueOf(0.0),
-        upperBound = BigDecimal.valueOf(400.0),
         value = BigDecimal.valueOf(70.0)
-    ))
+      )
+    )
   }
   val weightValue by remember {
     derivedStateOf {
@@ -36,7 +42,7 @@ fun TrackComposable(modifier: Modifier = Modifier) {
     }
   }
 
-  Column {
+  Column(modifier = modifier) {
     Text(text = "Weight")
     Row {
       Button(
@@ -55,9 +61,10 @@ fun TrackComposable(modifier: Modifier = Modifier) {
         Text(text = "+")
       }
     }
-    Button(
-      onClick = { TrackedRepository.saveTracked(weightMetric.value) }) {
-      Text(text = "Save")
+
+    Button(modifier = Modifier.padding(bottom = 12.dp),
+      onClick = { viewModel.onAddClicked() }) {
+      Text(text = "Add metric entry")
     }
   }
 }
@@ -69,5 +76,5 @@ fun TrackComposablePreview() {
 }
 
 object TrackComposable {
-  val WEIGHT_INPUT = "WEIGHT_TEXT_FIELD_TAG"
+  const val WEIGHT_INPUT = "WEIGHT_TEXT_FIELD_TAG"
 }
