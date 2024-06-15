@@ -16,16 +16,17 @@ class TrackViewModel @Inject constructor(
   private val trackedRepository: TrackedRepository
 ) : ViewModel() {
 
-  private var nextId = 0
 
   fun onAddClicked() {
     viewModelScope.launch {
+      val id = trackedRepository.generateId()
+
       trackedRepository.addNewTracked(
         MetricEntry(
-          id = nextId++.toString(),
+          id = id.toString(),
           metric = MetricSystemDefinition.definitions[WEIGHT]!!,
           timestamp = 0L,
-          value = BigDecimal.valueOf(nextId * 15L)
+          value = BigDecimal.valueOf(id * 15L)
         )
       )
     }

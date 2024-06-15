@@ -11,6 +11,7 @@ import javax.inject.Inject
 class InMemoryTrackedRepository @Inject constructor() : TrackedRepository {
 
   private val metricEntryFlow = MutableStateFlow(emptyList<MetricEntry>())
+  private var nextId = 0
 
   override suspend fun observeTracked(): Flow<List<MetricEntry>> {
     return metricEntryFlow
@@ -29,5 +30,9 @@ class InMemoryTrackedRepository @Inject constructor() : TrackedRepository {
         this[entryId] = this[entryId].setTo(value.normalizedValue + normalizedValueChange)
       }.toList()
     }
+  }
+
+  override suspend fun generateId(): Int {
+    return nextId++
   }
 }

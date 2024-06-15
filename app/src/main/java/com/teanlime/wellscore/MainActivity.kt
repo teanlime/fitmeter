@@ -16,13 +16,19 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.teanlime.wellscore.history.ui.HistoryComposable
+import com.teanlime.wellscore.navigation.HistoryNavigationDestination
+import com.teanlime.wellscore.navigation.TrackNavigationDestination
 import com.teanlime.wellscore.track.ui.TrackComposable
 import com.teanlime.wellscore.ui.theme.WellScoreTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     enableEdgeToEdge()
@@ -35,11 +41,11 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainActivityComposable() {
   WellScoreTheme {
-    val showHistory = rememberSaveable { mutableStateOf(false) }
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-      Column(modifier = Modifier.padding(innerPadding).padding(start = 12.dp, end = 12.dp)) {
-        TrackComposable()
+
+      Column(modifier = Modifier.padding(innerPadding)) {
+        val showHistory = rememberSaveable { mutableStateOf(false) }
 
         Button(
           modifier = Modifier.padding(top = 12.dp, bottom = 12.dp),
@@ -48,8 +54,25 @@ fun MainActivityComposable() {
           Text(text = "Toggle History")
         }
 
-        if(showHistory.value) {
-          HistoryComposable()
+        val navController = rememberNavController()
+
+        NavHost(
+          modifier = Modifier.padding(12.dp),
+          navController = navController,
+          startDestination = TrackNavigationDestination.toString(),
+        ) {
+          composable(TrackNavigationDestination.toString()) {
+            TrackComposable()
+          }
+          composable(HistoryNavigationDestination.toString()) {
+            HistoryComposable()
+          }
+        }
+
+        if (showHistory.value) {
+          navController.navigate(HistoryNavigationDestination.toString())
+        } else {
+          navController.navigate(TrackNavigationDestination.toString())
         }
       }
     }
