@@ -6,8 +6,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import java.math.BigDecimal
+import javax.inject.Inject
 
-object InMemoryTrackedRepository : TrackedRepository {
+class InMemoryTrackedRepository @Inject constructor() : TrackedRepository {
 
   private val metricEntryFlow = MutableStateFlow(emptyList<MetricEntry>())
 

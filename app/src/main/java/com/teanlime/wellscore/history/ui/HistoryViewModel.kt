@@ -4,13 +4,15 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.teanlime.wellscore.track.stores.InMemoryTrackedRepository
 import com.teanlime.wellscore.track.stores.TrackedRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import javax.inject.Inject
 
-class HistoryViewModel(
-  private val trackedRepository: TrackedRepository = InMemoryTrackedRepository
+@HiltViewModel
+class HistoryViewModel @Inject constructor(
+  private val trackedRepository: TrackedRepository
 ) : ViewModel() {
 
   private val _historyState = mutableStateListOf<HistoryUiState>()

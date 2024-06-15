@@ -1,6 +1,6 @@
 [versions]
 androidLifecycle = "2.8.2"
-hilt = "2.44"
+hilt = "2.51.1"
 kotlin = "2.0.0"
 
 [libraries]
