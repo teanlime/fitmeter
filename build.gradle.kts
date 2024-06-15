@@ -7,4 +7,10 @@ plugins {
     alias(libs.plugins.google.services) apply false
 
     alias(libs.plugins.ktlint) apply false
+
+    alias(libs.plugins.kapt) apply false
+
+    alias(libs.plugins.jetbrains.kotlin.compose.compiler) apply false
+
+    alias(libs.plugins.hilt) apply false
 }

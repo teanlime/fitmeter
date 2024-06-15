@@ -1,9 +1,11 @@
 plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.jetbrains.kotlin.android)
-  // Add the Google services Gradle plugin
   alias(libs.plugins.google.services)
   alias(libs.plugins.ktlint)
+  alias(libs.plugins.kapt)
+  alias(libs.plugins.hilt)
+  alias(libs.plugins.jetbrains.kotlin.compose.compiler)
 }
 
 android {
@@ -49,6 +51,10 @@ android {
   }
 }
 
+kapt {
+  correctErrorTypes = true
+}
+
 dependencies {
   // COMPOSE
   implementation(platform(libs.compose.bom))
@@ -69,6 +75,8 @@ dependencies {
 
   // OTHER
   implementation(platform(libs.firebase.bom))
+  implementation(libs.hilt.android)
+  kapt(libs.hilt.compiler)
 
   // TEST
   testImplementation(libs.junit)
@@ -79,4 +87,6 @@ dependencies {
   androidTestImplementation(libs.androidx.junit)
   androidTestImplementation(libs.compose.ui.test.junit4)
   androidTestImplementation(libs.compose.ui.test.junit4.android)
+
+
 }
