@@ -19,7 +19,9 @@ import androidx.compose.ui.unit.dp
 import com.teanlime.wellscore.history.ui.HistoryComposable
 import com.teanlime.wellscore.track.ui.TrackComposable
 import com.teanlime.wellscore.ui.theme.WellScoreTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)

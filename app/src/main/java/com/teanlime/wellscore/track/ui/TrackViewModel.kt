@@ -5,13 +5,15 @@ import androidx.lifecycle.viewModelScope
 import com.teanlime.wellscore.track.model.MetricEntry
 import com.teanlime.wellscore.track.model.MetricSystemDefinitions.MetricSystemDefinition
 import com.teanlime.wellscore.track.model.StandardMetricTypes.WEIGHT
-import com.teanlime.wellscore.track.stores.InMemoryTrackedRepository
 import com.teanlime.wellscore.track.stores.TrackedRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import javax.inject.Inject
 
-class TrackViewModel(
-  private val trackedRepository: TrackedRepository = InMemoryTrackedRepository
+@HiltViewModel
+class TrackViewModel @Inject constructor(
+  private val trackedRepository: TrackedRepository
 ) : ViewModel() {
 
   private var nextId = 0
