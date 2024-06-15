@@ -1,11 +1,11 @@
 plugins {
   alias(libs.plugins.android.application)
-  alias(libs.plugins.jetbrains.kotlin.android)
+  alias(libs.plugins.kotlin.android)
   alias(libs.plugins.google.services)
   alias(libs.plugins.ktlint)
-  alias(libs.plugins.kapt)
+  alias(libs.plugins.kotlin.kapt)
   alias(libs.plugins.hilt)
-  alias(libs.plugins.jetbrains.kotlin.compose.compiler)
+  alias(libs.plugins.kotlin.compose.compiler)
 }
 
 android {
@@ -62,6 +62,8 @@ dependencies {
   implementation(libs.compose.ui)
   implementation(libs.compose.ui.graphics)
   implementation(libs.compose.ui.tooling.preview)
+  implementation(libs.androidx.navigation.compose)
+  implementation(libs.kotlinx.serialization)
   debugImplementation(libs.compose.ui.test.manifest)
   debugImplementation(libs.compose.ui.tooling)
 
@@ -76,6 +78,8 @@ dependencies {
   // OTHER
   implementation(platform(libs.firebase.bom))
   implementation(libs.hilt.android)
+//  implementation(libs.hilt.common)
+  implementation(libs.hilt.navigation.compose)
   kapt(libs.hilt.compiler)
 
   // TEST
