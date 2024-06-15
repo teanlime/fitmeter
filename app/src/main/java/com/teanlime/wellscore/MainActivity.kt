@@ -16,13 +16,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.teanlime.wellscore.history.ui.HistoryComposable
-import com.teanlime.wellscore.navigation.HistoryNavigationDestination
-import com.teanlime.wellscore.navigation.TrackNavigationDestination
-import com.teanlime.wellscore.track.ui.TrackComposable
+import com.teanlime.wellscore.navigation.HistoryNavigationRoute
+import com.teanlime.wellscore.navigation.Navigator
+import com.teanlime.wellscore.navigation.TrackNavigationRoute
 import com.teanlime.wellscore.ui.theme.WellScoreTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,13 +32,19 @@ class MainActivity : ComponentActivity() {
     super.onCreate(savedInstanceState)
     enableEdgeToEdge()
     setContent {
-      MainActivityComposable()
+      MainActivityComposable(
+        navController = Navigator.rememberWellScoreNavController(),
+        navGraph = Navigator.rememberWellScoreNavGraph()
+      )
     }
   }
 }
 
 @Composable
-fun MainActivityComposable() {
+fun MainActivityComposable(
+  navController: NavHostController,
+  navGraph: NavGraph
+  ) {
   WellScoreTheme {
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -54,25 +59,16 @@ fun MainActivityComposable() {
           Text(text = "Toggle History")
         }
 
-        val navController = rememberNavController()
-
         NavHost(
           modifier = Modifier.padding(12.dp),
           navController = navController,
-          startDestination = TrackNavigationDestination.toString(),
-        ) {
-          composable(TrackNavigationDestination.toString()) {
-            TrackComposable()
-          }
-          composable(HistoryNavigationDestination.toString()) {
-            HistoryComposable()
-          }
-        }
+          graph = navGraph
+        )
 
         if (showHistory.value) {
-          navController.navigate(HistoryNavigationDestination.toString())
+          navController.navigate(route = HistoryNavigationRoute)
         } else {
-          navController.navigate(TrackNavigationDestination.toString())
+          navController.navigate(route = TrackNavigationRoute)
         }
       }
     }
@@ -82,5 +78,8 @@ fun MainActivityComposable() {
 @Preview(showBackground = true)
 @Composable
 fun GMainActivityComposablePreview() {
-  MainActivityComposable()
+  MainActivityComposable(
+    navController = Navigator.rememberWellScoreNavController(),
+    navGraph = Navigator.rememberWellScoreNavGraph()
+  )
 }
