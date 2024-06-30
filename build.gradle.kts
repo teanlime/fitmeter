@@ -13,4 +13,6 @@ plugins {
     alias(libs.plugins.kotlin.compose.compiler) apply false
 
     alias(libs.plugins.hilt) apply false
+
+    alias(libs.plugins.kotlin.serialization.compiler) apply false
 }

@@ -2,7 +2,7 @@
 androidLifecycle = "2.8.2"
 hilt = "2.51.1"
 kotlin = "2.0.0"
-navigation = "2.7.7"
+navigation = "2.8.0-beta04"
 
 [libraries]
 # COMPOSE
@@ -26,7 +26,7 @@ androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecyc
 
 # OTHER
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version = "33.1.0" }
-#hilt-common = { group = "androidx.hilt", name = "hilt-common", version = "1.2.0" }
+hilt-common = { group = "androidx.hilt", name = "hilt-common", version = "1.2.0" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version = "1.2.0" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
@@ -43,6 +43,7 @@ android-application = { id = "com.android.application", version = "8.5.0" }
 kotlin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+kotlin-serialization-compiler = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version = "4.4.2" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "12.1.1" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
